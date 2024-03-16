@@ -12,7 +12,7 @@ app.use(body_parser.urlencoded({extended:true}));
 
 
 app.get("/register", function(req, res) {
-  res.render("index", { pageTitle: "Register" });
+  res.render("register", { pageTitle: "Register" });
 });
 
 
