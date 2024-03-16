@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Upload Posts</title>
+  <style>
+    form {
+      margin: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Upload Posts</h1>
+  <form id="postForm" enctype="multipart/form-data">
+    <div>
+      <label for="userId">User ID:</label>
+      <input type="text" id="userId" name="userId" required>
+    </div>
+    <div>
+      <label for="content">Content:</label>
+      <textarea id="content" name="content" required></textarea>
+    </div>
+    <div>
+      <label for="postImage">Image:</label>
+      <input type="file" id="postImage" name="postImage">
+    </div>
+    <button type="submit">Upload</button>
+  </form>
+
+  <div id="message"></div>
+
+  <script>
+    document.getElementById('postForm').addEventListener('submit', async (event) => {
+      event.preventDefault();
+
+      const formData = new FormData(event.target);
+
+      try {
+        const response = await fetch('/upload', {
+          method: 'POST',
+          body: formData
+        });
+
+        if (response.ok) {
+          document.getElementById('message').textContent = 'Post uploaded successfully.';
+          document.getElementById('postForm').reset();
+        } else {
+          const errorMessage = await response.text();
+          document.getElementById('message').textContent = `Error: ${errorMessage}`;
+        }
+      } catch (error) {
+        console.error('Error uploading post:', error);
+        document.getElementById('message').textContent = 'An error occurred. Please try again later.';
+      }
+    });
+  </script>
+</body>
+</html>

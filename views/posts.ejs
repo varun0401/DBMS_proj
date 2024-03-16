@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= pageTitle %></title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<body>
+    <h1 class="posts-heading">Posts</h1>
+    <% if (posts.length > 0) { %>
+        <% posts.reverse().forEach(post => { %> 
+            <div class="post">
+                <p class="user-id">User ID: <%= post.user_id %></p>
+                <p class="content">Content: <%= post.content %></p>
+                <img src="/uploads/<%= post.image %>" alt="Post Image" class="post-image">
+            </div>
+        <% }); %>
+    <% } else { %>
+        <p>No posts found</p>
+    <% } %>
+</body>
+</html>
