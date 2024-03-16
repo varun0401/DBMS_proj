@@ -10,6 +10,8 @@ app.set('view engine', 'ejs');
 app.use(body_parser.json())
 app.use(body_parser.urlencoded({extended:true}));
 
+app.use(express.static(__dirname + '/public'));
+
 
 app.get("/register", function(req, res) {
   res.render("register", { pageTitle: "Register" });
@@ -19,7 +21,7 @@ app.get("/register", function(req, res) {
 const storage = multer.diskStorage({
     destination: 'uploads/',
     filename: (req, file, cb) => {
-      cb(null, `${Date.now()}-${Math.round(Math.random() * 1E9)}.jpg`); // Rename files to .jpg
+      cb(null, `${Date.now()}-${Math.round(Math.random() * 1E9)}.jpg`); 
     },
   }); 
 
