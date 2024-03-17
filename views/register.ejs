@@ -1,15 +1,63 @@
-<h1>REGISTRATION FORM</h1>
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registration Form</title>
     <link href="../styles.css" rel="stylesheet" type="text/css">
 </head>
-<form action="" method="post">
-    <input type="text" name = "id" placeholder="Enter your ID"><br><br>
-    <input type="text" name = "Name" placeholder="Enter your name"><br><br>
-    <input type="email" name = "email" placeholder="Enter your EMail"><br><br>
-    <input type="number" name = "Ph_no" placeholder="Enter your Phone number"><br><br>
-    <input type="password" name = "password" placeholder="Enter your Password"><br><br>
-    <input type="submit" value = "Submit">
-</form>
+<nav class="linkedin-navbar">
+    <a href="/" class="logo">
+      <img src="linkedin-logo.png" alt="LinkedIn">
+    </a>
+    <ul class="nav-list">
+      <li><a href="#">Home</a></li>
+      <li><a href="#">My Network</a></li>
+      <li><a href="/posts">Posts</a></li>
+      <li><a href="#">Learning</a></li>
+    </ul>
+    <div class="search-bar">
+      <input type="text" placeholder="Search for jobs, people, or skills">
+      <button type="button"><i class="fas fa-search"></i></button>
+    </div>
+    <div class="user-actions">
+      <a href="#">My Profile</a>
+      <a href="/login">Sign Out</a>
+    </div>
+  </nav>
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Form</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <h1>REGISTRATION FORM</h1>
+    <form action="/register" method="post"> <div class="form-group">
+        <label for="id">ID:</label>
+        <input type="text" name="id" id="id" placeholder="Enter your ID">
+      </div>
+      <div class="form-group">
+        <label for="name">Name:</label>
+        <input type="text" name="name" id="name" placeholder="Enter your name">
+      </div>
+      <div class="form-group">
+        <label for="email">Email:</label>
+        <input type="email" name="email" id="email" placeholder="Enter your email">
+      </div>
+      <div class="form-group">
+        <label for="phone_number">Phone Number:</label>
+        <input type="number" name="phone_number" id="phone_number" placeholder="Enter your phone number">
+      </div>
+      <div class="form-group">
+        <label for="password">Password:</label>
+        <input type="password" name="password" id="password" placeholder="Enter your password">
+      </div>
+      <div class="form-group">
+        <input type="submit" value="Submit" class="submit-btn">
+      </div>
+    </form>
+  </body>
+  </html>
+  

@@ -12,6 +12,9 @@ app.use(body_parser.urlencoded({extended:true}));
 
 app.use(express.static(__dirname + '/public'));
 
+app.get("/navbar", function(req, res) {
+  res.render("navbar", { pageTitle: "NAVBAR" });
+});
 
 app.get("/register", function(req, res) {
   res.render("register", { pageTitle: "Register" });

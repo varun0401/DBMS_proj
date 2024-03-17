@@ -51,3 +51,128 @@ input[type="submit"]:hover {
     background-color: #3e8e41; /* Darker green on hover */
 }
 
+/*navbar css*/
+.linkedin-navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+    background-image: linear-gradient(to bottom, #e0f2ff, #c7e6fd); /* Sky blue gradient */
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+  
+  .logo {
+    flex-grow: 0;
+  }
+  
+  .logo img {
+    height: 30px;
+  }
+  
+  .nav-list {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .nav-list li {
+    margin-right: 20px;
+  }
+  
+  .nav-list a {
+    text-decoration: none;
+    color: #333;
+    font-weight: 500;
+  }
+  
+  .nav-list a:hover {
+    color: #0077b5;
+  }
+  
+  .search-bar {
+    display: flex;
+    align-items: center;
+    margin-right: 20px;
+  }
+  
+  .search-bar input {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    font-size: 14px;
+  }
+  
+  .search-bar button {
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+  }
+  
+  .search-bar .fas.fa-search {
+    color: #ddd;
+    font-size: 16px;
+  }
+  
+  .user-actions {
+    display: flex;
+    align-items: center;
+  }
+  
+  .user-actions a {
+    margin-left: 10px;
+    color: #333;
+    font-weight: 500;
+  }
+  
+  .user-actions a:hover {
+    color: #0077b5;
+  }
+  
+
+
+  /*register form*/
+  body {
+    font-family: sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-color: #f0f9ff;  /* Light blue background */
+  }
+  
+  h1 {
+    text-align: center;
+    color: #247BA0;  /* Base blue for headings */
+    margin-bottom: 20px;
+  }
+  
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  .form-group label {
+    display: block;
+    margin-bottom: 5px;
+    color: #247BA0;
+  }
+  
+  .form-group input {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+  }
+  
+  .submit-btn {
+    background-color: #247BA0;  /* Base blue for submit button */
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+  }
+  
+  .submit-btn:hover {
+    background-color: #1769aa;  /* Darker blue on hover */
+  }
+  
