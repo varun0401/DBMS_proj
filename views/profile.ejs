@@ -6,50 +6,24 @@
   <title>Profile</title>
   <link rel="stylesheet" href="style.css">
 </head>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Profile</title>
-  <link rel="stylesheet" href="style.css">
-</head>
 <body>
   <h1>Edit Profile</h1>
   <form action="/update-profile" method="post" enctype="multipart/form-data">
-    <div class="profile-picture">
-      <img src="<%= profilePic || '/default-profile.png' %>" alt="Profile Picture">
-      <input type="file" name="profilePic" id="profilePicInput">
-      <label for="profilePicInput">Change Photo</label>
-    </div>
     <div class="form-group">
       <label for="name">Name:</label>
-      <input type="text" name="name" id="name" value="<%= user.name %>">
+      <input type="text" name="name" id="name" value="<%=name %>">
     </div>
     <div class="form-group">
-      <label for="id">ID (Read-only):</label>
-      <input type="text" name="id" id="id" value="<%= user.id %>" readonly>
+      <label for="id">ID </label>
+      <input type="text" name="id" id="id" value="<%= userId %>">
     </div>
     <div class="form-group">
-      <label for="semester">Semester:</label>
-      <input type="number" name="semester" id="semester" value="<%= user.semester %>">
-    </div>
-    <div class="form-group">
-      <label for="section">Section:</label>
-      <input type="text" name="section" id="section" value="<%= user.section %>">
+      <label for="profilePic">Profile Picture:</label>
+      <input type="file" name="profilePic" id="profilePic">
     </div>
     <div class="form-group">
       <input type="submit" value="Update Profile" class="submit-btn">
     </div>
-    <button type="button" onclick="uploadProfilePic()">Upload Profile Pic</button>
   </form>
-  <script>
-    function uploadProfilePic() {
-      const profilePicInput = document.getElementById('profilePicInput');
-      profilePicInput.click(); // Simulate click on file input
-    }
-  </script>
 </body>
-</html>
-
 </html>

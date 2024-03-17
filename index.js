@@ -10,8 +10,9 @@ app.set('view engine', 'ejs');
 
 app.use(body_parser.json())
 app.use(body_parser.urlencoded({extended:true}));
-
 app.use(express.static(__dirname + '/public'));
+app.use('/profile-pics', express.static(__dirname + '/profile-pics'));
+
 
 app.use(session({
   secret: 'varun', 
@@ -38,6 +39,26 @@ const storage = multer.diskStorage({
     },
   }); 
 
+
+
+  const profilePicStorage = multer.diskStorage({
+    destination: 'profile-pics/',
+    filename: (req, file, cb) => {
+        cb(null, `${Date.now()}-${Math.round(Math.random() * 1E9)}.jpg`);
+    },
+});
+
+const upload_profile = multer({
+  storage: profilePicStorage,
+  fileFilter: (req, file, cb) => {
+    if (file.mimetype === 'image/jpeg') {
+      cb(null, true);
+    } else {
+      cb(new Error('Only JPEG images are allowed'));
+    }
+  },
+});
+
 const upload = multer({
     storage: storage,
     fileFilter: (req, file, cb) => {
@@ -48,6 +69,26 @@ const upload = multer({
       }
     },
   });
+
+  
+  app.post("/update-profile", upload_profile.single('profilePic'), async function(req, res) {
+    try {
+      const profilePic = req.file ? req.file.filename : null;
+      const userId = req.session.userId; 
+      const profilePicPath = req.file.path; 
+      const query = "UPDATE users SET profile_pic_path = $1 WHERE id = $2";
+      await client.query(query, [profilePicPath, userId]);
+  
+      req.session.profilePic = profilePicPath;
+  
+      res.redirect("/profile");
+    } catch (error) {
+      console.error('Error updating profile:', error);
+      res.status(500).send('Error occurred during profile update');
+    }
+  });
+  
+
 
   app.post("/register", async function (req, res) {
     try {
@@ -135,11 +176,39 @@ app.get("/dashboard", function(req, res) {
   res.render("dashboard", { pageTitle: "Dashboard" });
 });
 
+// app.get("/profile_pic", async function(req, res) {
+//   console.log('Session User ID:', req.session.userId);
+
+//   try {
+//     const userId = req.session.userId;
+//     const query = 'SELECT profile_pic_path FROM users WHERE id = $1';
+//     const result = await client.query(query, [userId]);
+
+//     if (result.rows.length > 0) {
+//       const profilePic = result.rows[0].profile_pic_path;
+//       req.session.profilePic = profilePic;
+//       res.send(profilePic);
+//     } else {
+//       res.status(404).send('Profile picture path not found');
+//     }
+//   } catch (error) {
+//     console.error('Error fetching profile picture path:', error);
+//     res.status(500).send('Internal server error');
+//   }
+// });
+
+
 app.get("/home", async function(req, res) {
   try {
     const userId = req.session.userId;
     const post = await client.query('SELECT * FROM posts ');
+    const query1 = 'SELECT profile_pic_path FROM users WHERE id = $1';
+    const result1 = await client.query(query1, [userId]);
+    const profilePic = result1.rows[0].profile_pic_path;
+    
     const posts = post.rows;
+    console.log(profilePic);
+
     if (!userId) {
       throw new Error('User ID not found in session');
     }
@@ -152,7 +221,8 @@ app.get("/home", async function(req, res) {
     }
 
     const name = result.rows[0].name;
-    res.render("home", { pageTitle: "Home page", name, userId, posts });
+    req.session.name = name;
+    res.render("home", { pageTitle: "Home page", name, userId, posts,profilePic });
   } catch (error) {
     console.error('Error fetching user data:', error);
     res.status(500).send('Error occurred while fetching user data');
@@ -160,38 +230,12 @@ app.get("/home", async function(req, res) {
 });
 
 
-
-app.get('/posts', (req, res) => {
-  // Check if user is logged in (replace with session check)
-  if (req.session && req.session.userId) {
-    // Simulate retrieving profile data (replace with actual data fetching)
-    const posts = [
-      { user_id: 'user1', content: 'This is post 1', image: 'post1.jpg' },
-      { user_id: 'user2', content: 'This is post 2', image: 'post2.jpg' },
-    ];
-    
-    res.render('posts', { posts }); // Render profile page with data
-  } else {
-    res.redirect('/login'); // Redirect to login if not logged in
-  }
+app.get("/profile", async function(req, res) {
+  const name = req.session.name;
+  const userId = req.session.userId; 
+  res.render("profile", { pageTitle: "Profile", userId,name });
 });
 
-app.get("/profile", function(req, res) {
-  res.render("profile", { pageTitle: "Profile" });
-});
-
-
-// Assuming you have a function to retrieve user profile data
-const getUserProfile = async (userId) => {
-  // ... database logic to fetch profile data
-  return {
-    name: user.name,
-    id: user.id,
-    semester: user.semester,
-    section: user.section,
-    profilePic: user.profilePic, // Assuming profilePic is stored in the database
-  };
-};
 
 
 
