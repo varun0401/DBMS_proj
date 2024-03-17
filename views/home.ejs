@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <!-- Additional styles or scripts can be included here -->
+</head>
+<body>
+    <div class="container">
+        <div class="left-column">
+            <!-- User info section -->
+            <h2>User Info</h2>
+            <p>User ID: <%= userId %></p>
+            <p>Name:<%= name %></p>
+            <!-- Display other user info here -->
+        </div>
+        <div class="right-column">
+            <!-- Posts section -->
+            <h2>All Posts</h2>
+            <% if (posts.length > 0) { %>
+                <% posts.reverse().forEach(post => { %> 
+                    <div class="post">
+                        <p class="user-id">User ID: <%= post.user_id %></p>
+                        <p class="content">Content: <%= post.content %></p>
+                        <img src="/uploads/<%= post.image %>" alt="Post Image" class="post-image">
+                    </div>
+                <% }); %>
+            <% } else { %>
+                <p>No posts found</p>
+            <% } %>
+        </div>
+    </div>
+</body>
+</html>
