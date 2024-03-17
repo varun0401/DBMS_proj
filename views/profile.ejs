@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profile</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>Edit Profile</h1>
+  <form action="/update-profile" method="post" enctype="multipart/form-data">
+    <div class="profile-picture">
+      <img src="<%= profilePic || '/default-profile.png' %>" alt="Profile Picture">
+      <input type="file" name="profilePic" id="profilePicInput">
+      <label for="profilePicInput">Change Photo</label>
+    </div>
+    <div class="form-group">
+      <label for="name">Name:</label>
+      <input type="text" name="name" id="name" value="<%= user.name %>">
+    </div>
+    <div class="form-group">
+      <label for="id">ID (Read-only):</label>
+      <input type="text" name="id" id="id" value="<%= user.id %>" readonly>
+    </div>
+    <div class="form-group">
+      <label for="semester">Semester:</label>
+      <input type="number" name="semester" id="semester" value="<%= user.semester %>">
+    </div>
+    <div class="form-group">
+      <label for="section">Section:</label>
+      <input type="text" name="section" id="section" value="<%= user.section %>">
+    </div>
+    <div class="form-group">
+      <input type="submit" value="Update Profile" class="submit-btn">
+    </div>
+  </form>
+</body>
+</html>

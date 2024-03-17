@@ -176,3 +176,74 @@ input[type="submit"]:hover {
     background-color: #1769aa;  /* Darker blue on hover */
   }
   
+
+  /*profile page*/
+  body {
+    font-family: sans-serif;
+    margin: 0;
+    padding: 20px;
+  }
+  
+  h1 {
+    text-align: center;
+    color: #247BA0;  /* Replace with your base blue color */
+    margin-bottom: 20px;
+  }
+  
+  .profile-picture {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .profile-picture img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 20px;
+  }
+  
+  #profilePicInput {
+    display: none;
+  }
+  
+  .profile-picture label {
+    cursor: pointer;
+    color: #247BA0; /* Replace with your base blue color */
+  }
+  
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  .form-group label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  .form-group input {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+  }
+  
+  .submit-btn {
+    background-color: #247BA0; /* Replace with your base blue color */
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+  }
+  
+  .submit-btn:hover {
+    background-color: #1769aa; /* Darker blue on hover */
+  }
+  
+  #id {
+    background-color: #f0f9ff; /* Light background for read-only field */
+  }
+  

@@ -161,5 +161,22 @@ app.get("/home", async function(req, res) {
 
 
 
+app.get('/posts', (req, res) => {
+  // Check if user is logged in (replace with session check)
+  if (req.session && req.session.userId) {
+    // Simulate retrieving profile data (replace with actual data fetching)
+    const posts = [
+      { user_id: 'user1', content: 'This is post 1', image: 'post1.jpg' },
+      { user_id: 'user2', content: 'This is post 2', image: 'post2.jpg' },
+    ];
+    
+    res.render('posts', { posts }); // Render profile page with data
+  } else {
+    res.redirect('/login'); // Redirect to login if not logged in
+  }
+});
 
+app.get("/profile", function(req, res) {
+  res.render("profile", { pageTitle: "Profile" });
+});
 app.listen(8000);
