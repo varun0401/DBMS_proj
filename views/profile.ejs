@@ -6,6 +6,14 @@
   <title>Profile</title>
   <link rel="stylesheet" href="style.css">
 </head>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profile</title>
+  <link rel="stylesheet" href="style.css">
+</head>
 <body>
   <h1>Edit Profile</h1>
   <form action="/update-profile" method="post" enctype="multipart/form-data">
@@ -33,6 +41,15 @@
     <div class="form-group">
       <input type="submit" value="Update Profile" class="submit-btn">
     </div>
+    <button type="button" onclick="uploadProfilePic()">Upload Profile Pic</button>
   </form>
+  <script>
+    function uploadProfilePic() {
+      const profilePicInput = document.getElementById('profilePicInput');
+      profilePicInput.click(); // Simulate click on file input
+    }
+  </script>
 </body>
+</html>
+
 </html>

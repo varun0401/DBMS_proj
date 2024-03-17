@@ -179,4 +179,20 @@ app.get('/posts', (req, res) => {
 app.get("/profile", function(req, res) {
   res.render("profile", { pageTitle: "Profile" });
 });
+
+
+// Assuming you have a function to retrieve user profile data
+const getUserProfile = async (userId) => {
+  // ... database logic to fetch profile data
+  return {
+    name: user.name,
+    id: user.id,
+    semester: user.semester,
+    section: user.section,
+    profilePic: user.profilePic, // Assuming profilePic is stored in the database
+  };
+};
+
+
+
 app.listen(8000);
