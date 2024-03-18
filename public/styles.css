@@ -57,7 +57,7 @@ input[type="submit"]:hover {
     align-items: center;
     justify-content: space-between;
     padding: 10px 20px;
-    background-image: linear-gradient(to bottom, #e0f2ff, #c7e6fd); /* Sky blue gradient */
+    background-image: linear-gradient(to top, #cce8fb,#a3d2f5 ); /* Sky blue gradient */
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   }
   
@@ -248,3 +248,126 @@ input[type="submit"]:hover {
   }
   
   
+
+
+
+
+  /*home page css*/
+
+ /* General styling */
+body {
+  margin: 0;
+  font-family: sans-serif;
+  display: flex; /* Make the body a flexbox container */
+  flex-direction: column; /* Arrange elements vertically */
+  min-height: 100vh; /* Ensure content takes up full viewport height */
+}
+
+/* Navbar styling */
+.linkedin-navbar {
+  background-color: #0077b5;
+  color: #fff;
+  padding: 10px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.linkedin-navbar a {
+  color: #fff;
+  text-decoration: none;
+}
+
+.nav-list {
+  list-style: none;
+  display: flex;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-list li {
+  margin-right: 20px;
+}
+
+.search-bar input {
+  padding: 5px 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.user-actions a {
+  margin-left: 10px;
+}
+
+/* Container styling */
+.container {
+  flex: 1; /* Stretch to fill remaining height */
+  display: flex;
+}
+
+/* Column styling */
+.left-column,
+.right-column {
+  padding: 20px;
+  border: 1px solid #ddd;
+}
+.right-column{
+  width: 70%;
+}
+.left-column {
+  background-color: #f0f0f0; /* Light gray background for profile */
+  width: 30%;
+}
+
+h2 {
+  margin-top: 0; /* Remove top margin from headings */
+}
+.prp {
+
+    max-width: 100%; /* Images take up full width of their container */
+    border-radius: 50%; /* Make the image a circle */
+    display: block; /* Ensure image fills its container vertically */
+    margin: 0 auto; /* Center the image horizontally */
+  
+  
+}
+.post-image{
+  width:50%;
+}
+/* img {
+  max-width: 100%; /* Images take up full width of their container
+} */
+
+/* Posts section styling */
+.right-column {
+  background-color: #fff; /* White background for posts */
+}
+
+.post {
+  margin-bottom: 20px;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 10px;
+}
+
+.user-id,
+.content {
+  margin-bottom: 5px;
+}
+
+.post-image {
+  margin-top: 10px; /* Add some space above the image */
+}
+
+
+/*user id profile css*/
+
+.user_id,.name {
+  display: flex; /* Make the container a flexbox container */
+  justify-content: center; /* Center elements horizontally */
+  align-items: center; /* Center elements vertically (optional) */
+  <div class="user-info">
+  <p style="margin-bottom: 5px;">User ID: <%= userId %></p>
+  <p>Name:<%= name %></p>
+</div>
+
+}

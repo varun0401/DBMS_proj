@@ -7,14 +7,37 @@
     <link rel="stylesheet" type="text/css" href="styles.css">
     <!-- Additional styles or scripts can be included here -->
 </head>
+<nav class="linkedin-navbar">
+    <a href="/" class="logo">
+      <img src="linkedin-logo.png" alt="LinkedIn">
+    </a>
+    <ul class="nav-list">
+      <li><a href="#">Home</a></li>
+      <li><a href="#">My Network</a></li>
+      <li><a href="/posts">Posts</a></li>
+      <li><a href="#">Learning</a></li>
+    </ul>
+    <div class="search-bar">
+      <input type="text" placeholder="Search for jobs, people, or skills">
+      <button type="button"><i class="fas fa-search"></i></button>
+    </div>
+    <div class="user-actions">
+      <a href="#">My Profile</a>
+      <a href="/login">Sign Out</a>
+    </div>
+  </nav>
 <body>
     <div class="container">
         <div class="left-column">
             <!-- User info section -->
             <h2>User Info</h2>
-            <p>User ID: <%= userId %></p>
-            <p>Name:<%= name %></p>
-            <img src="<%= profilePic %>" alt="Profile Picture">
+            
+            <img id="prp" src="<%= profilePic %>" alt="Profile Picture" height=200px,width=200px style="border-radius: 100%; display: block; margin: 0 auto;">
+            <div class="user-info">
+                <div class="user_id"><p id="user_id">User ID: <%= userId %></p>  </div>              
+               <div class="name"> <p id="name">Name:<%= name %></p> </div>
+              </div>
+              
         </div>
         <div class="right-column">
             <!-- Posts section -->
@@ -24,7 +47,7 @@
                     <div class="post">
                         <p class="user-id">User ID: <%= post.user_id %></p>
                         <p class="content">Content: <%= post.content %></p>
-                        <img src="/uploads/<%= post.image %>" alt="Post Image" class="post-image">
+                        <img id="post_image" src="/uploads/<%= post.image %>" alt="Post Image" class="post-image">
                     </div>
                 <% }); %>
             <% } else { %>
