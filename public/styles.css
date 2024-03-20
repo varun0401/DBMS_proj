@@ -373,48 +373,38 @@ h2 {
 }
 
 
+/*profile page css*/
 body {
   font-family: sans-serif;
   margin: 0;
   padding: 20px;
-  display: flex; /* Center the container horizontally */
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh; /* Set minimum height for full-viewport */
 }
 
-.edit-profile {
-  background-color: #fff; /* Light background color */
-  border-radius: 5px;
-  padding: 30px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-}
-
-.edit-profile__heading {
+h1 {
   text-align: center;
   color: #333; /* Adjust text color */
   margin-bottom: 20px;
 }
 
-.edit-profile__form-group {
+.form-group {
   margin-bottom: 15px;
 }
 
-.edit-profile__form-group label {
+.form-group label {
   display: block;
   margin-bottom: 5px;
   color: #333;
 }
 
-.edit-profile__form-group input {
+.form-group input {
   display: block;
-  width: 100%;
+  width: 100%; /* Make inputs full width */
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 3px;
 }
 
-.edit-profile__submit-btn {
+.submit-btn {
   background-color: #4CAF50; /* Green color */
   color: white;
   padding: 10px 20px;
@@ -424,31 +414,29 @@ body {
   transition: background-color 0.2s ease-in-out;
 }
 
-.edit-profile__submit-btn:hover {
+.submit-btn:hover {
   background-color: #3e8e41; /* Darker green on hover */
 }
 
-.edit-profile__profile-picture {
-  display: flex;
-  align-items: center;
+
+/*about section css*/
+
+.about-section {
+  margin-bottom: 20px;
 }
 
-.edit-profile__profile-picture img {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  object-fit: cover;
-  margin-right: 20px;
+.about-section h2 {
+  margin-bottom: 10px;
 }
 
-#profilePic {
-  display: none; /* Hide file input initially */
+.about-section textarea {
+  width: 100%; /* Adjust width as needed */
+  resize: none; /* Disable vertical resizing (optional) */
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
 }
 
-.edit-profile__profile-picture label {
-  cursor: pointer;
-  color: #333;
+.about-section textarea:focus {
+  outline: 2px solid #4CAF50; /* Highlight on focus */
 }
-
-.edit-profile__profile-picture-preview {
-  border-radius:
