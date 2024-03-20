@@ -281,7 +281,8 @@ app.get("/home", async function(req, res) {
 app.get("/profile", async function(req, res) {
   const name = req.session.name;
   const userId = req.session.userId; 
-  res.render("profile", { pageTitle: "Profile", userId,name });
+  const profilePic = req.session.profilePic;
+  res.render("profile", { pageTitle: "Profile", userId,name,profilePic});
 });
 
 
