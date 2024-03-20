@@ -59,12 +59,27 @@ const upload_profile = multer({
   },
 });
 
-const document_storage = multer.diskStorage({
-  destination: 'documents/'
+const upload_doc = multer({
+  storage: profilePicStorage,
+  fileFilter: (req, file, cb) => {
+    if (file.mimetype === 'image/jpeg') {
+      cb(null, true);
+    } else {
+      cb(new Error('Only JPEG images are allowed'));
+    }
+  },
 });
 
-const upload_doc = multer({
-  storage: document_storage});
+const presentingStorage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'presenting/')
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname) 
+}
+});
+const presentingUpload = multer({ storage: presentingStorage });
+
 
 const upload = multer({
     storage: storage,
@@ -77,20 +92,37 @@ const upload = multer({
     },
   });
 
-  let documents = [
-    { id: 1, name: 'Presentation.pptx' },
-    { id: 2, name: 'Document.pdf' }
-];
   
   app.post("/update-profile", upload_profile.single('profilePic'), async function(req, res) {
     try {
       const profilePic = req.file ? req.file.filename : null;
       const userId = req.session.userId; 
-      const profilePicPath = req.file.path; 
-      const query = "UPDATE users SET profile_pic_path = $1 WHERE id = $2";
-      await client.query(query, [profilePicPath, userId]);
+      const about = req.body.about;
+      const profilePicPath = req.file ? req.file.path : null;  
+      const sem = req.body.sem;
+      const sec = req.body.sec; 
+      req.session.sem = sem;
+      req.session.sec = sec;
+      
+      if (req.file) {
+        const queryUpdateProfile = "UPDATE users SET profile_pic_path = $1 WHERE id = $2";
+        await client.query(queryUpdateProfile, [profilePicPath, userId]);
+      }
   
-      req.session.profilePic = profilePicPath;
+      const queryFetchSSID = 'SELECT SSID FROM semsec WHERE sem = $1 AND sec = $2';
+      const resultFetchSSID = await client.query(queryFetchSSID, [sem, sec]);
+
+      
+      if (resultFetchSSID.rows.length > 0) {
+        const SSID = resultFetchSSID.rows[0].ssid;  
+        const queryInsertClassUser = 'INSERT INTO class_user (user_id, SSID) VALUES ($1, $2)';
+        await client.query(queryInsertClassUser, [userId, SSID]);
+        req.session.ssid = SSID;
+
+        req.session.profilePic = profilePicPath;
+      } else {
+        console.log('No SSID found for sem:', sem, 'and sec:', sec);
+      }
   
       res.redirect("/profile");
     } catch (error) {
@@ -99,12 +131,16 @@ const upload = multer({
     }
   });
   
+  
   app.post("/edit-profile",async function(req, res) {
     try {
       const userId = req.session.userId;
       const sem = req.body.sem;
       const sec = req.body.sec; 
-  
+      req.session.sem = sem;
+      req.session.sec = sec;
+
+
       const checkQuery = "SELECT * FROM semsec WHERE user_id = $1";
       const checkResult = await client.query(checkQuery, [userId]);
       if (!sem) {
@@ -252,8 +288,11 @@ app.get("/home", async function(req, res) {
     const post = await client.query('SELECT * FROM posts ');
     const query1 = 'SELECT profile_pic_path FROM users WHERE id = $1';
     const result1 = await client.query(query1, [userId]);
+    console.log(result1);
+
     const profilePic = result1.rows[0].profile_pic_path;
-    
+    const sem = req.session.sem;
+    const sec= req.session.sec;
     const posts = post.rows;
     console.log(profilePic);
 
@@ -270,7 +309,7 @@ app.get("/home", async function(req, res) {
 
     const name = result.rows[0].name;
     req.session.name = name;
-    res.render("home", { pageTitle: "Home page", name, userId, posts,profilePic });
+    res.render("home", { pageTitle: "Home page", name, userId, posts,profilePic,sem,sec });
   } catch (error) {
     console.error('Error fetching user data:', error);
     res.status(500).send('Error occurred while fetching user data');
@@ -297,4 +336,63 @@ app.post('/create-room', (req, res) => {
   res.send(`Room "${Room_name}" created with ID ${roomId}`);
 });
 
+app.get("/join",(req,res)=>{
+  res.render("join", { pageTitle: "Join room"});
+});
+
+
+app.use('/presenting', express.static(path.join(__dirname, 'presenting')));
+app.post("/presenting", presentingUpload.single('presenting'), async (req, res) => {
+  try {
+    // Check if a file was uploaded
+    if (!req.file) {
+      throw new Error('No file uploaded');
+    }
+
+    const userId = req.session.userId;
+    const title = req.body.title;
+    const subject_code = req.body.subject_code;
+    const room_id = Math.floor(Math.random() * 1000000);
+
+    // Retrieve the file path and name
+    const notes = req.file.filename;
+    const notes_path = req.file.path;
+
+    const query = 'select ssid from class_user where user_id= $1';
+    const result = await client.query(query, [userId]);
+    const SSID=result.rows[0].ssid         
+
+    // Insert post into the database
+    const queryInsertPost = 'INSERT INTO presenting (user_id, SSID, title, notes, subject_code, room_id) VALUES ($1, $2, $3, $4, $5, $6)';
+    const resultInsert = await client.query(queryInsertPost, [userId, SSID, title, notes_path, subject_code, room_id]);
+
+    console.log('Post uploaded successfully:', resultInsert.rows[0]);
+    res.redirect(`/presenting`);
+  } catch (error) {
+    console.error('Error uploading post:', error);
+    res.status(500).send('Internal server error');
+  }
+});
+
+
+
+
+
+  app.get('/posts', async (req, res) => {
+    try {
+        const result = await client.query('SELECT * FROM posts ');
+  
+        if (result.rows.length === 0) {
+            res.status(404).send('Post not found');
+            return;
+        }
+  
+        const posts = result.rows;
+  
+        res.render('posts', { pageTitle: 'Posts', posts });
+    } catch (error) {
+        console.error('Error fetching post:', error);
+        res.status(500).send('Internal server error');
+    }
+  });
 app.listen(8000);
