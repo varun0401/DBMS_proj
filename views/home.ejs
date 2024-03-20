@@ -18,14 +18,16 @@
       <li><a href="#">Learning</a></li>
     </ul>
     <div class="search-bar">
-      <input type="text" placeholder="Search for jobs, people, or skills">
+      <form action="/search" method="post">
+      <input type="text" placeholder="Search for people" name="search" id=" search">
       <button type="button"><i class="fas fa-search"></i></button>
+      </form>
     </div>
     <div class="user-actions">
       <a href="#">My Profile</a>
       <a href="/login">Sign Out</a>
     </div>
-  </nav>
+    </nav>
 <body>
     <div class="container">
         <div class="left-column">
@@ -48,6 +50,10 @@
                         <p class="user-id">User ID: <%= post.user_id %></p>
                         <p class="content">Content: <%= post.content %></p>
                         <img id="post_image" src="/uploads/<%= post.image %>" alt="Post Image" class="post-image">
+                        <form action="/delete_post" method="POST">
+                          <input type="hidden" name="postId" value="<%= post.id %>">
+                          <button type="submit">Delete</button>
+                        </form>
                     </div>
                 <% }); %>
             <% } else { %>
@@ -55,5 +61,12 @@
             <% } %>
         </div>
     </div>
+    <script>
+      document.getElementById('searchForm').addEventListener('submit', (event) => {
+  event.preventDefault(); // Prevent default form submission
+  const searchTerm = document.getElementById('search').value.trim();
+  window.location.href = `/search?query=${searchTerm}`;
+});
+    </script>
 </body>
 </html>

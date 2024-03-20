@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>Edit Profile</h1>
+  <h1>Update Profile</h1>
   <form action="/update-profile" method="post" enctype="multipart/form-data">
     <div class="form-group">
       <label for="name">Name:</label>
@@ -18,12 +18,21 @@
       <input type="text" name="id" id="id" value="<%= userId %>">
     </div>
     <div class="form-group">
-      <label for="profilePic">Profile Picture:</label>
+      <label for="profilePic">Update Profile Picture:</label>
       <input type="file" name="profilePic" id="profilePic">
+    </div>
+    <div class="form-group">
+      <label for="id">SEM </label>
+      <input type="text" name="sem" id="sem" required>
+    </div>
+    <div class="form-group">
+      <label for="id">SECTION </label>
+      <input type="text" name="sec" id="sec" required>
     </div>
     <div class="form-group">
       <input type="submit" value="Update Profile" class="submit-btn">
     </div>
   </form>
-</body>
-</html>
+
+
+

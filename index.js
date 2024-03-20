@@ -59,6 +59,13 @@ const upload_profile = multer({
   },
 });
 
+const document_storage = multer.diskStorage({
+  destination: 'documents/'
+});
+
+const upload_doc = multer({
+  storage: document_storage});
+
 const upload = multer({
     storage: storage,
     fileFilter: (req, file, cb) => {
@@ -70,6 +77,10 @@ const upload = multer({
     },
   });
 
+  let documents = [
+    { id: 1, name: 'Presentation.pptx' },
+    { id: 2, name: 'Document.pdf' }
+];
   
   app.post("/update-profile", upload_profile.single('profilePic'), async function(req, res) {
     try {
@@ -88,6 +99,36 @@ const upload = multer({
     }
   });
   
+  app.post("/edit-profile",async function(req, res) {
+    try {
+      const userId = req.session.userId;
+      const sem = req.body.sem;
+      const sec = req.body.sec; 
+  
+      const checkQuery = "SELECT * FROM semsec WHERE user_id = $1";
+      const checkResult = await client.query(checkQuery, [userId]);
+      if (!sem) {
+        throw new Error('Semester information is required.');
+      }
+
+      if (checkResult.rows.length > 0) {
+        
+        const updateQuery = "UPDATE semsec SET sem = $1, sec = $2 WHERE user_id = $3";
+        await client.query(updateQuery, [sem, sec, userId]);
+      } else {
+       
+        const insertQuery = "INSERT INTO semsec (user_id, sem, sec) VALUES ($1, $2, $3)";
+        await client.query(insertQuery, [userId, sem, sec]);
+      }
+  
+      res.redirect("/profile");
+    } catch (error) {
+      console.error('Error updating profile:', error);
+      res.status(500).send('Error occurred during profile update');
+    }
+  });
+  
+
 
 
   app.post("/register", async function (req, res) {
@@ -112,6 +153,22 @@ const upload = multer({
     }
   });
 
+
+
+
+  app.post("/delete_post", async function(req, res) {
+    const postId = req.body.postId; 
+  
+    try {
+      const query = 'DELETE FROM posts WHERE id = $1';
+      await client.query(query, [postId]);
+  
+      res.redirect("/home"); 
+    } catch (error) {
+      console.error('Error deleting post:', error);
+      res.status(500).send('Internal server error');
+    }
+  });
 
 
 app.get("/login", function(req, res) {
@@ -176,27 +233,18 @@ app.get("/dashboard", function(req, res) {
   res.render("dashboard", { pageTitle: "Dashboard" });
 });
 
-// app.get("/profile_pic", async function(req, res) {
-//   console.log('Session User ID:', req.session.userId);
+app.post('/upload-document', upload_doc.single('document'), (req, res) => {
+  const uploadedDocument = req.file;
+  req.session.document = uploadedDocument;
+  documents.push({ id: documents.length + 1, name: uploadedDocument.originalname });
+  res.redirect('/room');
+});
 
-//   try {
-//     const userId = req.session.userId;
-//     const query = 'SELECT profile_pic_path FROM users WHERE id = $1';
-//     const result = await client.query(query, [userId]);
 
-//     if (result.rows.length > 0) {
-//       const profilePic = result.rows[0].profile_pic_path;
-//       req.session.profilePic = profilePic;
-//       res.send(profilePic);
-//     } else {
-//       res.status(404).send('Profile picture path not found');
-//     }
-//   } catch (error) {
-//     console.error('Error fetching profile picture path:', error);
-//     res.status(500).send('Internal server error');
-//   }
-// });
-
+app.get('/room', (req, res) => {
+  const documents = req.session.document;
+  res.render('room', { pageTitle: 'Collaborative Room', documents });
+});
 
 app.get("/home", async function(req, res) {
   try {
@@ -238,5 +286,14 @@ app.get("/profile", async function(req, res) {
 
 
 
+app.get('/create-room', (req, res) => {
+  res.render("create_room", { pageTitle: "create room"});
+});
+
+app.post('/create-room', (req, res) => {
+  const { Room_name } = req.body;
+  const roomId = Math.floor(Math.random() * 1000000); 
+  res.send(`Room "${Room_name}" created with ID ${roomId}`);
+});
 
 app.listen(8000);
