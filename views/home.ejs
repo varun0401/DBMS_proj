@@ -8,19 +8,14 @@
   </head>
 <nav class="linkedin-navbar">
     
-      <img src="./images/ClassroomConnect.jpg" height="50px" id="logo">
+      <img src="../images/ClassroomConnect.jpg" >
     <ul class="nav-list">
       <li><a href="/home">Home</a></li>
       <li><a href="/create_rooms">Rooms</a></li>
-      <li><a href="/posts">Posts</a></li>
+      <li><a href="/dashboard">Upload Posts</a></li>
       <li><a href="#">Learning</a></li>
     </ul>
-    <div class="search-bar">
-      <form action="/search" method="post">
-      <input type="text" placeholder="Search for people" name="search" id=" search">
-      <button type="button"><i class="fas fa-search"></i></button>
-      </form>
-    </div>
+   
     <div class="user-actions">
       <a href="/profile">My Profile</a>
       <a href="/login">Sign Out</a>
@@ -30,7 +25,7 @@
     <div class="container">
         <div class="left-column">
             <!-- User info section -->
-            <h2>User Info</h2>
+            <h2 align="center">User Info</h2>
             
             <img id="prp" src="<%= profilePic %>" alt="Profile Picture" height=200px,width=200px style="border-radius: 100%; display: block; margin: 0 auto;">
             <div class="user-info">
