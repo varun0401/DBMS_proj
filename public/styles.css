@@ -59,6 +59,7 @@ input[type="submit"]:hover {
     padding: 10px 20px;
     background-image: linear-gradient(to top, #cce8fb,#a3d2f5 ); /* Sky blue gradient */
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    width: 100%;
   }
   
   .logo {
@@ -439,4 +440,26 @@ h1 {
 
 .about-section textarea:focus {
   outline: 2px solid #4CAF50; /* Highlight on focus */
+}
+
+
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
+  background-color: #f0f0f0; /* Example background color */
+}
+.container {
+  max-width: 600px; /* Adjust max-width as needed */
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+}
+.user-info {
+  margin-top: 20px;
 }

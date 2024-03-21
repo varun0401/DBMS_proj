@@ -357,7 +357,7 @@ app.post("/presenting", presentingUpload.single('presenting'), async (req, res) 
     // Retrieve the file path and name
     const notes = req.file.filename;
     const notes_path = req.file.path;
-
+    req.session.room_id= room_id;
     const query = 'select ssid from class_user where user_id= $1';
     const result = await client.query(query, [userId]);
     const SSID=result.rows[0].ssid         
@@ -422,7 +422,35 @@ app.post("/view", async function(req, res) {
 
 
 
+app.post("/new-upload", presentingUpload.single('presenting'), async (req, res) => {
+  try {
+    // Check if a file was uploaded
+    if (!req.file) {
+      throw new Error('No file uploaded');
+    }
 
+    const userId = req.session.userId;
+    const title = req.body.title;
+    const subject_code = req.body.subject_code;
+
+    // Retrieve the file path and name
+    const notes = req.file.filename;
+    const notes_path = req.file.path;
+    room_id=req.session.room_id
+    const query = 'select ssid from class_user where user_id= $1';
+    const result = await client.query(query, [userId]);
+    const SSID=result.rows[0].ssid         
+
+    const queryInsertPost = 'INSERT INTO presenting (user_id, SSID, title, notes, subject_code, room_id) VALUES ($1, $2, $3, $4, $5, $6)';
+    const resultInsert = await client.query(queryInsertPost, [userId, SSID, title, notes_path, subject_code, room_id]);
+   
+    console.log('Post uploaded successfully:',  resultInsert.rows[0]);
+    res.redirect(`/presenting`);
+  } catch (error) {
+    console.error('Error uploading post:', error);
+    res.status(500).send('Internal server error');
+  }
+});
 
 
 
@@ -443,4 +471,15 @@ app.post("/view", async function(req, res) {
         res.status(500).send('Internal server error');
     }
   });
+
+
+
+  app.get("/download", (req, res) => {
+    const filePath = req.query.file_path;
+    if (filePath) {
+        res.download(filePath);
+    } else {
+        res.status(404).send('File not found');
+    }
+});
 app.listen(8000);

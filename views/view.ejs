@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
     <link rel="stylesheet" type="text/css" href="styles.css">
+    
   </head>
   <nav class="linkedin-navbar">
     
@@ -22,8 +23,8 @@
   </div>
   </nav>
 <body>
-    <div class="container">
-        <div class="left-column">
+    <div class="container" style="flex-direction: column;">
+       
             <!-- User info section -->
             <h2>User</h2>
             
@@ -31,8 +32,23 @@
             <div class="user-info">
                 <div class="user_id"><p id="user_id">User ID: <%= userId %></p>  </div>              
                <div class="name"> <p id="name">Name:<%= name %></p> </div>
+               <div>
+                <% presenting_notes.forEach(note => { %>
+                  <p><%= note.notes %></p>
+                  <form action="/download" method="get">
+                    <input type="hidden" name="file_path" value="<%= note.notes%>">
+                    <button type="submit">Download</button>
+                </form>
+                <% }) %>
+              
             </div>
+            
         </div>
+        <form action="/new-upload" method="post" enctype="multipart/form-data" id="new-files" style="margin-top: 10px;">
+          <label for="new_files">Upload new files</label>
+          <input type="file" name="presenting" placeholder="Upload Your file here">
+          <input type="submit" value="submit">
+        </form>
     </div>
 </body>
 </html>
