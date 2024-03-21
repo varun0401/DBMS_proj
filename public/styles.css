@@ -443,23 +443,3 @@ h1 {
 }
 
 
-
-body {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  margin: 0;
-  background-color: #f0f0f0; /* Example background color */
-}
-.container {
-  max-width: 600px; /* Adjust max-width as needed */
-  padding: 20px;
-  background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  display: flex;
-}
-.user-info {
-  margin-top: 20px;
-}

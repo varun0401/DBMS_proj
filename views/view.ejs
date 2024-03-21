@@ -33,9 +33,10 @@
                 <div class="user_id"><p id="user_id">User ID: <%= userId %></p>  </div>              
                <div class="name"> <p id="name">Name:<%= name %></p> </div>
                <div>
-                <% presenting_notes.forEach(note => { %>
-                  <p><%= note.notes %></p>
+               
                   <form action="/download" method="get">
+                    <% presenting_notes.forEach(note => { %>
+                      <p><%= note.notes %></p>
                     <input type="hidden" name="file_path" value="<%= note.notes%>">
                     <button type="submit">Download</button>
                 </form>
