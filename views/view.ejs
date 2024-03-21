@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+  </head>
+<nav class="linkedin-navbar">
+    
+      <img src="../images/ClassroomConnect.jpg" >
+    <ul class="nav-list">
+      <li><a href="/home">Home</a></li>
+      <li><a href="/create_rooms">Rooms</a></li>
+      <li><a href="/posts">Posts</a></li>
+      <li><a href="#">Learning</a></li>
+    </ul>
+    <div class="search-bar">
+      <form action="/search" method="post">
+      <input type="text" placeholder="Search for people" name="search" id=" search">
+      <button type="button"><i class="fas fa-search"></i></button>
+      </form>
+    </div>
+    <div class="user-actions">
+      <a href="/profile">My Profile</a>
+      <a href="/login">Sign Out</a>
+    </div>
+    </nav>
+<body>
+    <div class="container">
+        <div class="left-column">
+            <!-- User info section -->
+            <h2>User Info</h2>
+            
+            <div>
+              <% presenting_notes.forEach(note => { %>
+                <p><%= note.notes %></p>
+              <% }) %>
+            </div>
+            <div class="user-info">
+                <div class="user_id"><p id="user_id">User ID: <%= userId %></p>  </div>              
+               <div class="name"> <p id="name">Name:<%= name %></p> </div>
+      
+              </div>
+        </div>
+    </div>
+</body>
+</html>

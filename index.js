@@ -374,6 +374,54 @@ app.post("/presenting", presentingUpload.single('presenting'), async (req, res) 
   }
 });
 
+app.get("/presenting", async function(req,res){
+  res.render("presenting");
+} );
+
+app.post("/view", async function(req, res) {
+  try {
+    const userId = req.session.userId;
+    const room_id = req.body.room_id; 
+    console.log(room_id);
+
+    if (!userId) {
+      throw new Error('User ID not found in session');
+    }
+
+    // Check if the view already exists
+    const checkViewQuery = 'SELECT EXISTS(SELECT 1 FROM information_schema.views WHERE table_name = $1)';
+    const viewExists = await client.query(checkViewQuery, ['presenting_notes']);
+
+    if (viewExists.rows[0].exists) {
+      // Drop the existing view if it exists
+      const dropViewQuery = 'DROP VIEW IF EXISTS presenting_notes';
+      await client.query(dropViewQuery);
+    }
+
+    // Create the view presenting_notes
+    const queryCreateView = `CREATE VIEW presenting_notes AS SELECT notes FROM presenting WHERE room_id = ${room_id}`;
+    await client.query(queryCreateView);
+    
+    // Fetch data from the presenting_notes view
+    const queryFetchNotes = 'SELECT * FROM presenting_notes';
+    const presenting_notes = await client.query(queryFetchNotes);    
+
+    const queryUserName = 'SELECT name FROM users WHERE id = $1';
+    const userResult = await client.query(queryUserName, [userId]);
+    if (userResult.rows.length === 0) {
+      throw new Error('User not found in database');
+    }
+    const name = userResult.rows[0].name;
+
+    res.render("view", { pageTitle: "view page", name, userId, posts: presenting_notes.rows, sem: req.session.sem, sec: req.session.sec, presenting_notes: presenting_notes.rows });
+  } catch (error) {
+    console.error('Error fetching user data:', error);
+    res.status(500).send('Error occurred while fetching user data');
+  }
+});
+
+
+
 
 
 
