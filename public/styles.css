@@ -443,3 +443,18 @@ h1 {
 }
 
 
+.uploaded-files-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px; /* Adjust margin as needed */
+}
+
+.uploaded-files-container p {
+  margin-bottom: 10px; /* Add spacing between file entries */
+}
+
+.uploaded-files-container form {
+  margin-top: 10px; /* Add spacing between file entries and download buttons */
+}

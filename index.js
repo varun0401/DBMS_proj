@@ -344,7 +344,6 @@ app.get("/join",(req,res)=>{
 app.use('/presenting', express.static(path.join(__dirname, 'presenting')));
 app.post("/presenting", presentingUpload.single('presenting'), async (req, res) => {
   try {
-    // Check if a file was uploaded
     if (!req.file) {
       throw new Error('No file uploaded');
     }
@@ -354,7 +353,6 @@ app.post("/presenting", presentingUpload.single('presenting'), async (req, res) 
     const subject_code = req.body.subject_code;
     const room_id = Math.floor(Math.random() * 1000000);
 
-    // Retrieve the file path and name
     const notes = req.file.filename;
     const notes_path = req.file.path;
     req.session.room_id= room_id;
@@ -362,12 +360,11 @@ app.post("/presenting", presentingUpload.single('presenting'), async (req, res) 
     const result = await client.query(query, [userId]);
     const SSID=result.rows[0].ssid         
 
-    // Insert post into the database
     const queryInsertPost = 'INSERT INTO presenting (user_id, SSID, title, notes, subject_code, room_id) VALUES ($1, $2, $3, $4, $5, $6)';
     const resultInsert = await client.query(queryInsertPost, [userId, SSID, title, notes_path, subject_code, room_id]);
 
     console.log('Post uploaded successfully:', resultInsert.rows[0]);
-    res.redirect(`/presenting`);
+    res.send(`<script>alert("Room created with ID: ${room_id}");window.location.href = '/presenting'</script>`);
   } catch (error) {
     console.error('Error uploading post:', error);
     res.status(500).send('Internal server error');
@@ -382,8 +379,7 @@ app.post("/view", async function(req, res) {
   try {
     const userId = req.session.userId;
     const room_id = req.body.room_id; 
-    console.log(room_id);
-
+    req.session.room_id= room_id;
     if (!userId) {
       throw new Error('User ID not found in session');
     }
@@ -433,10 +429,9 @@ app.post("/new-upload", presentingUpload.single('presenting'), async (req, res) 
     const title = req.body.title;
     const subject_code = req.body.subject_code;
 
-    // Retrieve the file path and name
     const notes = req.file.filename;
     const notes_path = req.file.path;
-    room_id=req.session.room_id
+    const room_id=req.session.room_id;
     const query = 'select ssid from class_user where user_id= $1';
     const result = await client.query(query, [userId]);
     const SSID=result.rows[0].ssid         
